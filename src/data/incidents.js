@@ -1,0 +1,73 @@
+/**
+ * Mock incidents — 6 seed records.
+ * All data is fictional.
+ */
+
+export const INCIDENTS = [
+  {
+    id: 'INC-1042',
+    atmId: 'ATM-KHI-003',
+    alertId: 'ALR-2081',
+    issue: 'ATM Offline',
+    priority: 'critical',
+    technician: 'Ahmed Khan',
+    status: 'investigating',
+    createdAt: new Date(Date.now() - 40 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 15 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'INC-1043',
+    atmId: 'ATM-LHR-002',
+    alertId: 'ALR-2082',
+    issue: 'Cash dispenser jam on cassette 2',
+    priority: 'critical',
+    technician: 'Bilal Ahmad',
+    status: 'repair',
+    createdAt: new Date(Date.now() - 10 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 3 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'INC-1044',
+    atmId: 'ATM-KHI-002',
+    alertId: 'ALR-2084',
+    issue: 'Network latency elevated',
+    priority: 'high',
+    technician: 'Sara Iqbal',
+    status: 'assigned',
+    createdAt: new Date(Date.now() - 22 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 12 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'INC-1045',
+    atmId: 'ATM-ISB-002',
+    alertId: 'ALR-2088',
+    issue: 'Card reader intermittent failures',
+    priority: 'medium',
+    technician: 'Hassan Raza',
+    status: 'assigned',
+    createdAt: new Date(Date.now() - 85 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 45 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'INC-1046',
+    atmId: 'ATM-LHR-003',
+    alertId: null,
+    issue: 'Preventive maintenance — annual service',
+    priority: 'low',
+    technician: 'Unassigned',
+    status: 'detected',
+    createdAt: new Date(Date.now() - 26 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 26 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: 'INC-1041',
+    atmId: 'ATM-KHI-001',
+    alertId: null,
+    issue: 'Routine cash replenishment',
+    priority: 'low',
+    technician: 'Ahmed Khan',
+    status: 'resolved',
+    createdAt: new Date(Date.now() - 30 * 60 * 60 * 1000).toISOString(),
+    updatedAt: new Date(Date.now() - 28 * 60 * 60 * 1000).toISOString(),
+  },
+];
