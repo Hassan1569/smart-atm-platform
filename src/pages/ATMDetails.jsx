@@ -7,7 +7,6 @@ import Button from '../components/common/Button.jsx';
 import Card from '../components/common/Card.jsx';
 import ErrorState from '../components/common/ErrorState.jsx';
 import EmptyState from '../components/common/EmptyState.jsx';
-import StatusDot from '../components/common/StatusDot.jsx';
 import Badge from '../components/common/Badge.jsx';
 
 import AtmOverviewCard from '../components/atm/AtmOverviewCard.jsx';
@@ -15,17 +14,18 @@ import AtmIdentityCard from '../components/atm/AtmIdentityCard.jsx';
 import AtmDetailsSkeleton from '../components/atm/AtmDetailsSkeleton.jsx';
 
 import DeviceGroupSection from '../components/devices/DeviceGroupSection.jsx';
+import ConnectivityPanel from '../components/connectivity/ConnectivityPanel.jsx';
 
 import { useAtm } from '../hooks/useAtm.js';
 import { useAtmDevices } from '../hooks/useAtmDevices.js';
 import { DEVICE_GROUP, DEVICE_GROUP_LABEL } from '../utils/constants.js';
-import { titleCase } from '../utils/helpers.js';
 
 const TABS = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'devices', label: 'System Health' },
-  { id: 'cash', label: 'Cash' },
-  { id: 'incidents', label: 'Incidents' },
+  { id: 'overview',     label: 'Overview'      },
+  { id: 'devices',      label: 'System Health' },
+  { id: 'connectivity', label: 'Connectivity'  },
+  { id: 'cash',         label: 'Cash'          },
+  { id: 'incidents',    label: 'Incidents'     },
 ];
 
 export default function ATMDetails() {
@@ -84,15 +84,14 @@ export default function ATMDetails() {
 
       {atm.data && (
         <>
-          {/* Tabs */}
           <div className="mb-4 border-b border-slate-200 dark:border-slate-800">
-            <nav className="flex gap-1 -mb-px">
+            <nav className="flex gap-1 -mb-px overflow-x-auto">
               {TABS.map((t) => (
                 <button
                   key={t.id}
                   onClick={() => setTab(t.id)}
                   className={[
-                    'px-3 py-2 text-sm font-medium border-b-2 transition-colors',
+                    'px-3 py-2 text-sm font-medium border-b-2 transition-colors whitespace-nowrap',
                     tab === t.id
                       ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
                       : 'border-transparent text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200',
@@ -139,6 +138,8 @@ export default function ATMDetails() {
               )}
             </div>
           )}
+
+          {tab === 'connectivity' && <ConnectivityPanel atmId={atm.data.id} />}
 
           {tab === 'cash' && (
             <Card title="Cash">
