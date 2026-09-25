@@ -2,18 +2,18 @@ import { Search, X } from 'lucide-react';
 import Input from '../common/Input.jsx';
 import Select from '../common/Select.jsx';
 import Button from '../common/Button.jsx';
-import { ATM_STATUS } from '../../utils/constants.js';
+import { DEVICE_STATUS } from '../../utils/constants.js';
 import { titleCase } from '../../utils/helpers.js';
 
 const STATUS_OPTIONS = [
   { value: 'all', label: 'All statuses' },
-  ...Object.values(ATM_STATUS).map((s) => ({
+  ...Object.values(DEVICE_STATUS).map((s) => ({
     value: s,
     label: titleCase(s),
   })),
 ];
 
-export default function AtmFilters({ filters, setFilters, onReset, isFiltered }) {
+export default function DeviceFilters({ filters, setFilters, onReset, isFiltered }) {
   const update = (patch) => setFilters((prev) => ({ ...prev, ...patch }));
 
   return (
@@ -21,43 +21,26 @@ export default function AtmFilters({ filters, setFilters, onReset, isFiltered })
       <div className="flex-1 min-w-0">
         <Input
           label="Search"
-          placeholder="ATM ID, location, bank, IP…"
+          placeholder="Device name, ATM ID…"
           icon={Search}
           value={filters.search}
           onChange={(e) => update({ search: e.target.value })}
         />
       </div>
-
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 lg:w-[640px]">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 lg:w-[520px]">
         <Select
           label="Status"
           value={filters.status}
           options={STATUS_OPTIONS}
-          onChange={(e) => update({ status: e.target.value, page: 1 })}
+          onChange={(e) => update({ status: e.target.value })}
         />
-
         <Input
-          label="City"
-          placeholder="e.g. Karachi"
-          value={filters.city}
-          onChange={(e) => update({ city: e.target.value, page: 1 })}
-        />
-
-        <Input
-          label="Bank"
-          placeholder="e.g. NCR"
-          value={filters.bank}
-          onChange={(e) => update({ bank: e.target.value, page: 1 })}
-        />
-
-        <Input
-          label="Vendor"
-          placeholder="e.g. NCR"
-          value={filters.vendor}
-          onChange={(e) => update({ vendor: e.target.value, page: 1 })}
+          label="ATM ID"
+          placeholder="e.g. ATM-KHI-001"
+          value={filters.atmId}
+          onChange={(e) => update({ atmId: e.target.value })}
         />
       </div>
-
       {isFiltered && (
         <Button variant="ghost" size="md" icon={X} onClick={onReset}>
           Reset
