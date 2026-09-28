@@ -72,9 +72,12 @@ export default function Login() {
             incidents, and maintenance — in one place.
           </p>
         </div>
-        <div className="text-xs text-indigo-200/60 mono">
-          Frontend prototype · Simulated data · No real ATM integration
-        </div>
+       <div className="text-xs text-indigo-200/60 mono space-y-1">
+  <p>Frontend prototype · Simulated data · No real ATM integration</p>
+  <p>
+    Built by <span className="text-white font-semibold">Hassan</span> · © 2026
+  </p>
+</div>
       </div>
 
       {/* Right: login form */}

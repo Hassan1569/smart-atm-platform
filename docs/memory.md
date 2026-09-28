@@ -1,135 +1,101 @@
-# Project Memory
+# Project Memory — FINAL
 ## Smart ATM Operations & Monitoring Platform
 
-**Purpose:** Persistent context across phases. Only update relevant sections — do not rewrite the whole file.
-
-**Last Updated:** Phase 1 (Documentation)
-
----
-
-## Current State
-
-- **Current Phase:** 1 — Documentation ✅ complete
-- **Current Task:** Awaiting user approval to proceed to Phase 2 (Project Setup)
-- **Next Task:** T2.1 `package.json`
+**Last Updated:** Phase 17 (Project complete)
+**Current Phase:** ✅ All phases (0–17) complete
+**Next Task:** None — project delivered
 
 ---
 
 ## Completed Features
 
-- Phase 0: Folder & file structure approved
-- Phase 1: All seven docs written (`prd.md`, `architecture.md`, `rules.md`, `design.md`, `tasks.md`, `memory.md`, `README.md`)
+All 15 modules shipped:
+1. Dashboard (KPIs, charts, activity feed, recent lists)
+2. ATM Management (filters, sorting, pagination)
+3. ATM Details (overview, identity, tabs)
+4. Device Monitoring (ATM / Cash Recycler / Network groups)
+5. Connectivity (simulated ping panel with sparkline)
+6. Alert Management (lifecycle + drawer + dialogs)
+7. Incidents + Maintenance (timeline, comments, tabs)
+8. Cash Management (cassettes, replenishment history)
+9. Transactions (volume, hourly, type breakdown)
+10. ATM Map (Leaflet + OSM)
+11. Reports (8 types + print)
+12. Users (admin-only table)
+13. Settings (theme, simulation, danger zone)
+14. Authentication + RBAC (4 roles)
+15. Real-Time Simulation (toggle, interval, notifications, toasts)
 
 ---
 
-## Architecture Decisions
+## Architecture Decisions (Final)
 
-| # | Decision | Rationale | Date |
-|---|---|---|---|
-| AD-01 | Frontend-only prototype, no backend | Scope control; portfolio focus | Phase 0 |
-| AD-02 | React Context for global state (no Redux/Zustand) | Scale doesn't justify external store | Phase 0 |
-| AD-03 | Services are the only data boundary | Enables future API swap without touching components | Phase 0 |
-| AD-04 | Simulation as a service + context, not per-component timers | Prevents render storms; single source of truth | Phase 0 |
-| AD-05 | Dark mode via `class` strategy on `<html>` | Tailwind standard; easy persistence | Phase 1 |
-| AD-06 | Centralized RBAC in `permissions.js` | Avoid scattered role checks | Phase 1 |
-| AD-07 | `apiClient.js` as the simulated-latency boundary | Single swap target for real fetch | Phase 0 |
-| AD-08 | Status colors in `statusColors.js` (single source) | Consistency across all modules | Phase 1 |
-| AD-09 | No real ICMP/SNMP/TCP — all connectivity simulated | Browser security + truthfulness rule | Phase 0 |
-| AD-10 | Leaflet + OpenStreetMap for map | Free, no API key, well-supported | Phase 1 |
-
----
-
-## Important Technical Decisions
-
-- **Naming:** `.jsx` for components, `.js` for pure logic.
-- **Folder casing:** lowercase for folders, PascalCase for component files.
-- **Line target:** < 300 lines per file; split when exceeded.
-- **Response format:** Standard completed-block (see `rules.md` §G).
-- **Token efficiency:** Never dump unchanged files; only show diffs/relevant snippets.
+| # | Decision | Rationale |
+|---|---|---|
+| AD-01 | Frontend-only prototype | Portfolio focus |
+| AD-02 | React Context for global state | Scale |
+| AD-03 | Services are the only data boundary | Enables future API swap |
+| AD-04 | Simulation as a service + context | Prevents render storms |
+| AD-05 | Dark mode via `class` strategy | Tailwind standard |
+| AD-06 | Centralized RBAC in `permissions.js` | Avoid scattered checks |
+| AD-07 | `apiClient.js` as the latency boundary | Single swap target |
+| AD-08 | Status colors in `statusColors.js` | Single source of truth |
+| AD-09 | No real ICMP/SNMP/TCP — all simulated | Truthfulness rule |
+| AD-10 | Leaflet + OSM | Free, no API key |
+| AD-11 | Simulation mutates a live copy in `atmService.js` (not the seed) | Keeps seed immutable |
+| AD-12 | Global ErrorBoundary wrapping everything | Prevents white screens |
+| AD-13 | Toast + Notifications split (ephemeral vs persistent) | Distinct UX needs |
+| AD-14 | Poppins for headings, Inter for body | Modern, distinct, free |
 
 ---
 
-## Components Created
+## Dependencies Installed
 
-*(none yet — Phase 3 onward)*
+**Runtime:** react, react-dom, react-router-dom, recharts, lucide-react, leaflet, react-leaflet, framer-motion
 
----
-
-## Dependencies
-
-**Planned runtime:**
-- react
-- react-dom
-- react-router-dom
-- recharts
-- lucide-react
-- leaflet
-- react-leaflet
-- framer-motion
-
-**Planned dev:**
-- vite
-- @vitejs/plugin-react
-- tailwindcss
-- postcss
-- autoprefixer
-
-*(Not yet installed — Phase 2)*
-
----
-
-## Known Bugs
-
-*(none — no code yet)*
+**Dev:** vite, @vitejs/plugin-react, tailwindcss, postcss, autoprefixer
 
 ---
 
 ## Known Limitations
 
-- All data is fictional and resets on refresh unless persisted to LocalStorage.
-- Simulation is rule-based, not statistically realistic.
-- Auth is simulated — not secure.
-- No backend → no cross-device sync.
-- No real ICMP — connectivity is mocked.
-
----
-
-## Pending Work
-
-- Phase 2 through Phase 17 (see `tasks.md`).
+- All data fictional. No real ATM/bank integration.
+- Alert/incident mutations are in-memory only — reset on refresh.
+- Session in LocalStorage — not secure.
+- No backend, no automated tests, no i18n.
 
 ---
 
 ## Future Improvements
 
-- Replace `apiClient` internals with real REST.
-- Replace `simulationService` with WebSocket subscriber.
-- Add backend (NestJS + PostgreSQL + Redis).
-- Add automated tests (Vitest + React Testing Library).
-- Add E2E tests (Playwright).
-- Add i18n (English + Urdu) for regional realism.
-- Add PDF export for reports.
+- Real backend (NestJS + PostgreSQL + Redis)
+- WebSocket channel replacing `simulationService`
+- JWT/OAuth auth
+- Vitest + RTL + Playwright tests
+- i18n (English + Urdu)
+- PDF report export
+- Deployment (Vercel/Netlify)
 
 ---
 
 ## Important Assumptions
 
-- User is running Node ≥ 18.
-- User has `npm` available.
-- Target browsers: latest Chrome / Firefox / Safari / Edge.
-- No SSR required.
-- No PWA required (optional later).
-- Single-tenant (no multi-org support).
+- Node ≥ 18, npm ≥ 9
+- Modern evergreen browsers
+- Single-tenant
+- No SSR / PWA
 
 ---
+## Author
+
+- **Hassan** — original author and maintainer.
+- Any reuse or redistribution must retain the MIT LICENSE and this attribution.
 
 ## Phase Log
 
-| Phase | Status | Notes |
-|---|---|---|
-| 0 | ✅ | Structure approved |
-| 1 | ✅ | Docs written |
-| 2 | ⏳ | Awaiting go-ahead |
+| Phase | Status |
+|---|---|
+| 0–17 | ✅ All complete |
 
 ---
 
