@@ -65,3 +65,125 @@
     scrollbar-width: thin;
   }
 }
+/* =========================================================
+   Leaflet overrides — required for dark mode + marker pulse
+   ========================================================= */
+
+/* Ensure Leaflet container sits under our overlays */
+.leaflet-container {
+  background: #e5e7eb; /* slate-200 light default */
+  font-family: inherit;
+}
+.dark .leaflet-container {
+  background: #0f172a; /* slate-900 dark default */
+}
+
+/* Popup theming for dark mode */
+.dark .leaflet-popup-content-wrapper,
+.dark .leaflet-popup-tip {
+  background: #0f172a;
+  color: #e2e8f0;
+  border: 1px solid #1e293b;
+}
+.dark .leaflet-popup-content {
+  margin: 12px 14px;
+}
+.dark .leaflet-popup-close-button {
+  color: #94a3b8;
+}
+.dark .leaflet-popup-close-button:hover {
+  color: #e2e8f0;
+}
+
+/* Attribution styling */
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.8) !important;
+  font-size: 10px;
+}
+.dark .leaflet-control-attribution {
+  background: rgba(15, 23, 42, 0.8) !important;
+  color: #94a3b8 !important;
+}
+.dark .leaflet-control-attribution a {
+  color: #a5b4fc !important;
+}
+
+/* Zoom control dark mode */
+.dark .leaflet-bar a {
+  background: #0f172a;
+  color: #e2e8f0;
+  border-color: #1e293b;
+}
+.dark .leaflet-bar a:hover {
+  background: #1e293b;
+}
+
+/* Marker base — remove default outline */
+.satm-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Critical marker pulse */
+@keyframes satmPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+  70%  { box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+/* =========================================================
+   Print styles — Reports
+   ========================================================= */
+@media print {
+  /* Force light background */
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .dark body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Hide chrome: sidebar, topbar, tabs, filters, buttons */
+  aside,
+  header,
+  nav,
+  button,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Make main content full width */
+  main {
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Compact table borders */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 10px;
+  }
+  th,
+  td {
+    border: 1px solid #cbd5e1 !important;
+    padding: 4px 6px !important;
+    color: #000000 !important;
+  }
+  th {
+    background: #f1f5f9 !important;
+  }
+
+  /* Force cards to be borderless for print */
+  section {
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+  }
+
+  /* Page break control */
+  tr {
+    page-break-inside: avoid;
+  }
+}
