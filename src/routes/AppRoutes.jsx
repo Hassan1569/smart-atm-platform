@@ -1,6 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import DashboardLayout from '../layouts/DashboardLayout.jsx';
+import AuthLayout from '../layouts/AuthLayout.jsx';
+import ProtectedRoute from './ProtectedRoute.jsx';
 
+import Login from '../pages/Login.jsx';
 import Dashboard from '../pages/Dashboard.jsx';
 import ATMs from '../pages/ATMs.jsx';
 import ATMDetails from '../pages/ATMDetails.jsx';
@@ -19,7 +22,19 @@ import NotFound from '../pages/NotFound.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
-      <Route element={<DashboardLayout />}>
+      {/* Auth */}
+      <Route element={<AuthLayout />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
+
+      {/* Authenticated app */}
+      <Route
+        element={
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
         <Route index element={<Dashboard />} />
         <Route path="/atms" element={<ATMs />} />
         <Route path="/atms/:id" element={<ATMDetails />} />
