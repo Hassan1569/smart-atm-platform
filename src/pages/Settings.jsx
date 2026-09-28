@@ -1,16 +1,32 @@
-import { Sun, Moon, LogOut, Trash2 } from 'lucide-react';
+import { Sun, Moon, LogOut, Trash2, Activity } from 'lucide-react';
 import PageHeader from '../components/common/PageHeader.jsx';
 import Card from '../components/common/Card.jsx';
 import Button from '../components/common/Button.jsx';
+import Select from '../components/common/Select.jsx';
 
 import { useTheme } from '../hooks/useTheme.js';
 import { useAuth } from '../hooks/useAuth.js';
+import { useSimulation } from '../hooks/useSimulation.js';
 import { ROLE_LABEL } from '../utils/constants.js';
 import RoleBadge from '../components/common/RoleBadge.jsx';
+
+const INTERVAL_OPTIONS = [
+  { value: 3000,  label: 'Fast — 3 seconds' },
+  { value: 5000,  label: 'Normal — 5 seconds' },
+  { value: 10000, label: 'Slow — 10 seconds' },
+  { value: 30000, label: 'Very slow — 30 seconds' },
+];
 
 export default function Settings() {
   const { theme, setTheme } = useTheme();
   const { user, signOut } = useAuth();
+  const {
+    enabled: simEnabled,
+    intervalMs,
+    toggle: toggleSim,
+    setIntervalMs,
+    tick,
+  } = useSimulation();
 
   const handleClearSession = () => {
     if (!confirm('Sign out and clear your session?')) return;
@@ -21,7 +37,7 @@ export default function Settings() {
   const handleClearLocalData = () => {
     if (
       !confirm(
-        'Clear all local data (theme, sidebar state, session)? This cannot be undone.'
+        'Clear all local data (theme, sidebar state, session, simulation)? This cannot be undone.'
       )
     )
       return;
@@ -29,6 +45,7 @@ export default function Settings() {
       localStorage.removeItem('satm.theme');
       localStorage.removeItem('satm.sidebar.collapsed');
       localStorage.removeItem('satm.session');
+      localStorage.removeItem('satm.simulation');
     } catch {
       /* ignore */
     }
@@ -39,7 +56,7 @@ export default function Settings() {
     <>
       <PageHeader
         title="Settings"
-        description="Theme, session, and platform preferences."
+        description="Theme, simulation, and platform preferences."
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -122,20 +139,70 @@ export default function Settings() {
           )}
         </Card>
 
-        {/* Simulation (placeholder for Phase 15) */}
-        <Card title="Simulation" subtitle="Real-time updates">
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            The real-time simulation engine will be added in Phase 15. When
-            enabled, it will periodically update ATM health, cash levels,
-            alerts, and activity feed.
-          </p>
+        {/* Simulation */}
+        <Card
+          title={
+            <span className="inline-flex items-center gap-2">
+              <Activity className="h-4 w-4 text-emerald-500" />
+              Real-time Simulation
+            </span>
+          }
+          subtitle="Periodically mutates ATM state and generates alerts"
+        >
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-medium text-slate-800 dark:text-slate-200">
+                  Simulation {simEnabled ? 'running' : 'paused'}
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  {simEnabled
+                    ? `Tick #${tick} — updates every ${intervalMs / 1000}s`
+                    : 'No background changes will occur.'}
+                </p>
+              </div>
+              <button
+                onClick={toggleSim}
+                className={[
+                  'relative inline-flex h-6 w-11 items-center rounded-full transition-colors',
+                  simEnabled ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-slate-700',
+                ].join(' ')}
+                aria-pressed={simEnabled}
+                aria-label="Toggle simulation"
+              >
+                <span
+                  className={[
+                    'inline-block h-5 w-5 rounded-full bg-white shadow transform transition-transform',
+                    simEnabled ? 'translate-x-5' : 'translate-x-0.5',
+                  ].join(' ')}
+                />
+              </button>
+            </div>
+
+            <div>
+              <Select
+                label="Update interval"
+                value={intervalMs}
+                options={INTERVAL_OPTIONS.map((o) => ({
+                  value: o.value,
+                  label: o.label,
+                }))}
+                onChange={(e) => setIntervalMs(Number(e.target.value))}
+              />
+            </div>
+
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              When enabled, ATM health, cash, and status change over time, and
+              new alerts flow into the Notifications panel.
+            </p>
+          </div>
         </Card>
 
         {/* Danger zone */}
         <Card title="Danger Zone" subtitle="Reset local state">
           <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
             Clear all local data stored by the app. You'll be signed out and
-            your theme preference will be reset to the system default.
+            your theme preference will be reset.
           </p>
           <Button
             variant="danger"

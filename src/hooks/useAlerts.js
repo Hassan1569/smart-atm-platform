@@ -6,6 +6,7 @@ import {
   investigateAlert,
   resolveAlert,
 } from '../services/alertService.js';
+import { on } from '../services/simulationService.js';
 
 export function useAlerts() {
   const [data, setData] = useState(null);
@@ -34,6 +35,19 @@ export function useAlerts() {
       mounted.current = false;
     };
   }, [load]);
+
+  // Prepend new alerts from simulation
+  useEffect(() => {
+    const off = on('alert:new', (alert) => {
+      setData((prev) => {
+        if (!prev) return [alert];
+        // Avoid duplicates
+        if (prev.some((a) => a.id === alert.id)) return prev;
+        return [alert, ...prev];
+      });
+    });
+    return () => off();
+  }, []);
 
   const runMutation = useCallback(async (fn) => {
     setMutating(true);

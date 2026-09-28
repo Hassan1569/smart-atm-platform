@@ -1,15 +1,26 @@
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+import { SimulationProvider } from './context/SimulationContext.jsx';
+import { NotificationProvider } from './context/NotificationContext.jsx';
+import { ToastProvider } from './context/ToastContext.jsx';
+import NotificationsPanel from './components/layout/NotificationsPanel.jsx';
 import AppRoutes from './routes/AppRoutes.jsx';
 
 export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <BrowserRouter>
-          <AppRoutes />
-        </BrowserRouter>
+        <SimulationProvider>
+          <NotificationProvider>
+            <ToastProvider>
+              <BrowserRouter>
+                <AppRoutes />
+                <NotificationsPanel />
+              </BrowserRouter>
+            </ToastProvider>
+          </NotificationProvider>
+        </SimulationProvider>
       </AuthProvider>
     </ThemeProvider>
   );

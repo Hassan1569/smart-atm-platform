@@ -11,7 +11,7 @@ import EmptyState from '../components/common/EmptyState.jsx';
 import AtmFilters from '../components/atm/AtmFilters.jsx';
 import AtmTable from '../components/atm/AtmTable.jsx';
 
-import { useAtms } from '../hooks/useAtms.js';
+import { useLiveAtms } from '../hooks/useLiveAtms.js';
 import { useDebounce } from '../hooks/useDebounce.js';
 
 const PAGE_SIZE = 8;
@@ -26,7 +26,7 @@ const DEFAULT_FILTERS = {
 };
 
 export default function ATMs() {
-  const { data: atms, loading, error, refetch } = useAtms();
+const { data: atms, loading, error, refetch } = useLiveAtms();
 
   const [filters, setFilters] = useState(DEFAULT_FILTERS);
   const [sort, setSort] = useState({ key: 'id', direction: 'asc' });
